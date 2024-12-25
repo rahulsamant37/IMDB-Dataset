@@ -18,3 +18,5 @@ ipywidgets
 visions
 numba
 pytest
+polars
+tensorflow
