@@ -1,6 +1,6 @@
 from src.constants import *
 from src.utils.common import read_yaml, create_directories
-from src.entity.config_entity import (DataIngestionConfig,DataValidationConfig,DataTransformationConfig,ModelTrainerConfig)
+from src.entity.config_entity import (DataIngestionConfig,DataValidationConfig,DataTransformationConfig,ModelTrainerConfig,ModelEvalConfig)
 
 class ConfigurationManager:
     def __init__(self,
@@ -75,3 +75,23 @@ class ConfigurationManager:
             target_column=schema['name']
         )
         return model_trainer_config
+    
+    def get_model_eval_config(self, model_type: str) -> ModelEvalConfig:
+
+        config = self.config.model_evaluation
+        params=self.params.model_params[model_type]
+        schema = self.schema.TARGET_COLUMN
+
+        create_directories([config.root_dir])
+
+        model_eval_config = ModelEvalConfig(
+            root_dir=config.root_dir,
+            test_data_path=config.test_data_path,
+            metric_file_name=config.metric_file_name,
+            models=config.models,
+            all_params=params,
+            target_column=schema.name,
+            mlflow_uri="https://dagshub.com/rahulsamantcoc2/IMDB-Dataset.mlflow",
+            model_type=model_type
+        )
+        return model_eval_config

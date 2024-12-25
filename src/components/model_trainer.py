@@ -72,9 +72,9 @@ class ModelTrainer:
         # Add RNN layers
         for i in range(num_layers):
             return_sequences = i < num_layers - 1
-            if 'lstm' in self.config.model_name.lower():
+            if 'lstm' in self.config.model_name:
                 layer = LSTM(hidden_size, return_sequences=return_sequences)
-            elif 'gru' in self.config.model_name.lower():
+            elif 'gru' in self.config.model_name:
                 layer = GRU(hidden_size, return_sequences=return_sequences)
             else:
                 layer = SimpleRNN(hidden_size, return_sequences=return_sequences)
