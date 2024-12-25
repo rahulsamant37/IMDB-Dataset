@@ -31,3 +31,12 @@ class DataIngestion:
         os.makedirs(unzip_path, exist_ok=True)
         with zipfile.ZipFile(self.config.local_data_file, 'r') as zip_ref:
             zip_ref.extractall(unzip_path)
+            logger.info(f"Extracted {self.config.local_data_file} to {unzip_path}")
+        
+        # Replace spaces in extracted file names
+        for item in os.listdir(unzip_path):
+            old_path = os.path.join(unzip_path, item)
+            new_path = os.path.join(unzip_path, item.replace(" ", "_"))
+            if old_path != new_path:
+                os.rename(old_path, new_path)
+                logger.info(f"Renamed {old_path} to {new_path}")
