@@ -1,1 +1,39 @@
-name: str
+model_params:
+  rnn:
+    hidden_size: [64, 128]
+    num_layers: [1, 2]
+    batch_size: 64
+    learning_rate: [0.001, 0.0001]
+    num_epochs: 5
+    dropout: [0.2, 0.3]
+    bidirectional: [true, false]
+    embedding_dim: [100, 200]
+    vocab_size: 10000
+    max_length: 200
+    random_state: 42
+
+  lstm:
+    hidden_size: [64, 128]
+    num_layers: [1, 2]
+    batch_size: 64
+    learning_rate: [0.001, 0.0001]
+    num_epochs: 5
+    dropout: [0.2, 0.3]
+    bidirectional: [true, false]
+    embedding_dim: [100, 200]
+    vocab_size: 10000
+    max_length: 200
+    random_state: 42
+
+  gru:
+    hidden_size: [64, 128]
+    num_layers: [1, 2]
+    batch_size: 64
+    learning_rate: [0.001, 0.0001]
+    num_epochs: 5
+    dropout: [0.2, 0.3]
+    bidirectional: [true, false]
+    embedding_dim: [100, 200]
+    vocab_size: 10000
+    max_length: 200
+    random_state: 42
