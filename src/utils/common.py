@@ -8,7 +8,11 @@ from box import ConfigBox
 from pathlib import Path
 from typing import Any
 from box.exceptions import BoxValueError
-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+import tensorflow
+import keras
+from tensorflow.keras.models import Model
 
 @ensure_annotations
 def read_yaml(path_to_yaml: Path) -> ConfigBox:
@@ -55,11 +59,10 @@ def save_json(path: Path, data: dict):
         path (Path): path to json file
         data (dict): data to be saved in json file
     """
-    with open(path, "w") as f:
-        json.dump(data, f, indent=4)
-
-    logger.info(f"json file saved at: {path}")
-
+    if not isinstance(data, (Model, object)):  # Adjust types if needed
+        raise TypeError(f"Invalid data type: {type(data)} for save_bin.")
+    joblib.dump(value=data, filename=path)
+    logger.info(f"Binary file saved at: {path}")
 @ensure_annotations
 def load_json(path: Path) -> ConfigBox:
     """load json files data
@@ -77,7 +80,7 @@ def load_json(path: Path) -> ConfigBox:
     return ConfigBox(content)
 
 @ensure_annotations
-def save_bin(data: Any, path: Path):
+def save_bin(data, path: Path):
     """save binary file
 
     Args:

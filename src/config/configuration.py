@@ -1,6 +1,6 @@
 from src.constants import *
 from src.utils.common import read_yaml, create_directories
-from src.entity.config_entity import (DataIngestionConfig,DataValidationConfig,DataTransformationConfig)
+from src.entity.config_entity import (DataIngestionConfig,DataValidationConfig,DataTransformationConfig,ModelTrainerConfig)
 
 class ConfigurationManager:
     def __init__(self,
@@ -50,3 +50,28 @@ class ConfigurationManager:
             data_path=config.data_path
         )
         return data_tranformation_config
+    
+    def get_model_trainer_config(self, model_type: str) -> ModelTrainerConfig:
+        config=self.config.model_trainer
+        params=self.params.model_params[model_type]
+        schema=self.schema.TARGET_COLUMN
+        create_directories([config.root_dir])
+        model_trainer_config = ModelTrainerConfig(
+            root_dir=config.root_dir,
+            train_data_path=config.train_data_path,
+            test_data_path=config.test_data_path,
+            model_name=config.model_name,
+            hidden_size=params["hidden_size"][0],  # Example: pick the first value
+            num_layers=params["num_layers"][0],
+            batch_size=params["batch_size"],
+            learning_rate=params["learning_rate"][0],
+            num_epochs=params["num_epochs"],
+            dropout=params["dropout"][0],
+            bidirectional=params["bidirectional"][0],
+            embedding_dim=params["embedding_dim"][0],
+            vocab_size=params["vocab_size"],
+            max_length=params["max_length"],
+            random_state=params["random_state"],
+            target_column=schema['name']
+        )
+        return model_trainer_config
